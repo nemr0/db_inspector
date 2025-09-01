@@ -1,0 +1,9 @@
+name: db_inspector
+
+packages:
+  - packages/db_inspector_core
+  - packages/hive_db_inspector
+
+command:
+  bootstrap:
+    runPubGetInParallel: false

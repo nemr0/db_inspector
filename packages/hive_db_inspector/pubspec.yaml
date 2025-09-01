@@ -1,0 +1,22 @@
+name: hive_db_inspector
+resolution: workspace
+description: "Hive Implementation for db inspector"
+version: 0.0.1
+homepage:
+
+environment:
+  sdk: ^3.9.0
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  hive: ^2.2.3
+  db_inspector_core:
+    path: ../db_inspector_core
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+

@@ -1,0 +1,12 @@
+name: db_inspector
+
+description: "A monorepo for db inspector packages"
+version: 0.0.1
+workspace:
+  - packages/db_inspector_core
+  - packages/hive_db_inspector
+environment:
+  sdk: ">=3.9.0 <4.0.0"
+dev_dependencies:
+  melos: ^7.1.0
+
