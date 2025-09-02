@@ -8,7 +8,7 @@ abstract class BoxDB extends Equatable implements DBType {
   Future<int> clearBox(String boxName);
   List<String> getOpenBoxes();
 
-  Stream<StreamEvent<String, dynamic>> watchBoxes();
+  Stream<StreamEvent<dynamic, dynamic>> watchBoxes();
   Future<void> openBox(String boxName);
 
 }

@@ -71,7 +71,7 @@ class HiveBoxDBType implements BoxDB {
 
 
   @override
-  Stream<StreamEvent<String, dynamic>> watchBoxes() {
+  Stream<StreamEvent<dynamic, dynamic>> watchBoxes() {
     return startMergedStream<String, dynamic>(
       _openBoxes.map(
         (box) => box.watch().map(
