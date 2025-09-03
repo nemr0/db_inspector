@@ -1,7 +1,6 @@
 import '../../helpers/tagged_merge/merged_stream.dart';
 import '../db_type.dart';
-import 'package:equatable/equatable.dart';
-abstract class BoxDB extends Equatable implements DBType {
+abstract class BoxDB implements DBType {
 
   Future<void> insertToBox(String boxName, dynamic key, dynamic value);
   Future<void> deleteFromBox(String boxName, dynamic key);

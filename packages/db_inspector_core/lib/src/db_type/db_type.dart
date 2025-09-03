@@ -7,4 +7,6 @@ abstract class DBType {
   /// Disconnects from the database.
   Future<void> disconnect();
 
+  bool get isConnected;
+
 }

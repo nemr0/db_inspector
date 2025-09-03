@@ -8,7 +8,7 @@ class HiveBoxDBType implements BoxDB {
   final Set<HiveBoxDetails> boxes;
   final String path;
   final HiveStorageBackendPreference storageBackendPreference;
-
+  bool _isConnected = false;
   HiveBoxDBType({
     required this.boxes,
     required this.path,
@@ -34,6 +34,7 @@ class HiveBoxDBType implements BoxDB {
 
       );
     }
+    _isConnected = true;
   }
 
   @override
@@ -86,9 +87,7 @@ class HiveBoxDBType implements BoxDB {
 
 
 
-  @override
-  List<Object?> get props => [boxes, path];
 
   @override
-  bool? get stringify => true;
+  bool get isConnected => _isConnected;
 }
