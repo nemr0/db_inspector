@@ -1,7 +1,7 @@
 import 'db_type.dart';
 
 /// Abstract class for interacting with a relational database.
-abstract class RelationalDB extends DBType {
+abstract class RelationalDB extends DB {
   /// Executes the given SQL [query] with optional [params] and
   /// returns a list of rows (each row is a map of column names to values).
   Future<List<Map<String, dynamic>>> query(

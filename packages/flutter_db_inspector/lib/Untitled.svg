@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+  <polygon points="254.765 56.398 444.166 154.997 444.166 352.197 254.765 450.796 65.363 352.197 65.363 154.997" fill="#353535" stroke="#5A5A5A" stroke-width="14" stroke-linejoin="round" style="stroke-width: 14px;"/>
+  <rect x="133.773" y="166.61" width="200" height="170" rx="28" ry="28" fill="#FFC107" stroke="#FFFFFF" stroke-width="10" style="stroke-width: 10px;"/>
+  <ellipse cx="233.773" cy="163.61" rx="100" ry="15.148" fill="#FFDE91" stroke="#FFFFFF" stroke-width="10" style="stroke-width: 10px;"/>
+  <circle cx="321.773" cy="295.61" r="64" fill="none" stroke="#FFE082" stroke-width="14" opacity="0.25" style="stroke-width: 14px;"/>
+  <ellipse cx="233.773" cy="256.61" rx="90.656" ry="20.164" fill="none" stroke="#FFE082" stroke-width="8" opacity="0.75" style="stroke-width: 8px;"/>
+  <ellipse cx="233.773" cy="305.61" rx="90.656" ry="20.164" fill="none" stroke="#FFE082" stroke-width="8" opacity="0.75" style="stroke-width: 8px;"/>
+  <ellipse cx="233.773" cy="207.61" rx="90.656" ry="20.164" fill="none" stroke="#FFE082" stroke-width="8" opacity="0.75" style="stroke-width: 8px;"/>
+  <ellipse cx="233.773" cy="326.61" rx="100" ry="15.148" fill="#FFDE91" stroke="#FFFFFF" stroke-width="10" style="stroke-width: 10px;"/>
+  <g transform="matrix(1, 0, 0, 1, -13.036203, 32.155968)">
+    <circle cx="334.809" cy="263.454" r="52" fill="#FFDE91" stroke="#FFFFFF" stroke-width="12" style="stroke-width: 12px;"/>
+    <path d="M 334.809 247.454 L 342.809 263.454 L 358.809 271.454 L 342.809 279.454 L 334.809 295.454 L 326.809 279.454 L 310.809 271.454 L 326.809 263.454 L 334.809 247.454 Z" fill="#FFFFFF" opacity="0.9" style="stroke-width: 1px;"/>
+    <rect x="376" y="310" width="70" height="16" rx="8" ry="8" fill="#FFFFFF" transform="matrix(0.866025, 0.5, -0.5, 0.866025, 202.183502, -162.334274)" style="stroke-width: 1px;"/>
+    <path d="M 355.327 235.608 L 359.731 244.698 L 368.539 249.243 L 359.731 253.788 L 355.327 262.878 L 350.923 253.788 L 342.115 249.243 L 350.923 244.698 L 355.327 235.608 Z" fill="#FFFFFF" opacity="0.9" style="stroke-width: 1px;"/>
+    <path d="M 334.548 231.568 L 336.387 235.363 L 340.064 237.261 L 336.387 239.158 L 334.548 242.953 L 332.709 239.158 L 329.032 237.261 L 332.709 235.363 L 334.548 231.568 Z" fill="#FFFFFF" opacity="0.9" style="stroke-width: 1px;"/>
+  </g>
+</svg>

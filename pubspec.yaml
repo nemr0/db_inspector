@@ -7,7 +7,8 @@ workspace:
   - packages/hive_db_inspector
 environment:
   sdk: ">=3.9.0 <4.0.0"
-dependencies:
+# repo-root/pubspec.yaml
+dependency_overrides:
   equatable: ^2.0.7
 
 dev_dependencies:

@@ -1,6 +1,5 @@
-name: db_inspector_core
-resolution: workspace
-description: "Core Inspector for any database"
+name: flutter_db_inspector
+description: "A new Flutter package project."
 version: 0.0.1
 homepage:
 
@@ -11,14 +10,21 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  db_inspector_core:
+    path: ../db_inspector_core
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
-  equatable: ^2.0.7
 
-#flutter:
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+
+  assets:
+    - assets/
 
   # To add assets to your package, add an assets section, like this:
   # assets:
