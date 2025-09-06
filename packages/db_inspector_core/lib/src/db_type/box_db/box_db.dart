@@ -7,7 +7,7 @@ abstract class BoxDB implements DB {
   Future<int> clearBox(String boxName);
   List<String> getOpenBoxes();
   Future<List<T>> getBoxData<T>(String boxName);
-  Stream<StreamEvent<dynamic, dynamic>> watchBoxes();
+  Stream<StreamEvent<dynamic, dynamic>> watchBoxes({bool addInitialData = true});
 
 }
 

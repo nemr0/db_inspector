@@ -2,3 +2,4 @@
 /.dart_tool/
 /packages/db_inspector_core/example/ios/Flutter/
 /packages/db_inspector_core/example/macos/Flutter/
+/.idea/

@@ -8,5 +8,5 @@ abstract class DB {
   Future<void> disconnect();
 
   bool get isConnected;
-
+  Stream<int> get onChange;
 }

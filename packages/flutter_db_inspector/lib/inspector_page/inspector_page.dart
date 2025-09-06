@@ -1,7 +1,7 @@
 import 'package:db_inspector_core/db_inspector_core.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_db_inspector/helpers/db_type_extension.dart';
 import 'package:flutter_db_inspector/helpers/themes.dart';
+import 'package:flutter_db_inspector/inspector_page/tabs/box_db_tab/sliver_box_db_tab.dart';
 import 'package:flutter_db_inspector/inspector_page/widgets/sliver_inspector_page_header.dart';
 
 class InspectorPage extends StatefulWidget {
@@ -15,7 +15,12 @@ class InspectorPage extends StatefulWidget {
 
 class _InspectorPageState extends State<InspectorPage> {
   int selectedDBIndex = 0;
-
+  getDBWidget(DB type){
+    return switch(type){
+      BoxDB() => SliverBoxDbTab(boxDB: type),
+      DB() => SliverToBoxAdapter(child: const SizedBox.shrink()),
+    };
+  }
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -34,7 +39,7 @@ class _InspectorPageState extends State<InspectorPage> {
               dbTypes: widget.dbTypes,
             ),
             if (widget.dbTypes.isNotEmpty)
-            widget.dbTypes[selectedDBIndex].sliver
+            getDBWidget(widget.dbTypes[selectedDBIndex])
             else SliverFillRemaining(
               child: Center(
                 child: Text(

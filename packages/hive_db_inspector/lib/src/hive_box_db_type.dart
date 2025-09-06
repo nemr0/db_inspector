@@ -57,17 +57,19 @@ class HiveDB implements BoxDB {
 /// Make a merged stream of all box watch streams with start value of current box data
   /// Make a merged stream of all box watch streams with start value of current box data
   @override
-  Stream<StreamEvent<String, dynamic>> watchBoxes() {
+  Stream<StreamEvent<String, dynamic>> watchBoxes({bool addInitialData = true}) {
     return startMergedStream<String, dynamic>(
       boxes.map((box) {
         return (() async* {
-          for (final key in box.keys) {
-            yield BoxEventData(
-              key: key.toString(),
-              deleted: false,
-              data: box.get(key),
-              streamId: box.name,
-            );
+          if(addInitialData){
+            for (final key in box.keys) {
+              yield BoxEventData(
+                key: key.toString(),
+                deleted: false,
+                data: box.get(key),
+                streamId: box.name,
+              );
+            }
           }
           yield* box.watch().map(
                 (data) => BoxEventData(
@@ -92,5 +94,14 @@ class HiveDB implements BoxDB {
   Future<List<T>> getBoxData<T>(String boxName) {
     final box = Hive.box<T>(boxName);
     return Future.value(box.values.toList());
+  }
+
+  @override
+  Stream<int> get onChange {
+    var count = 0;
+    return watchBoxes(addInitialData: false).map((_) {
+      count = ++count;
+      return count;
+    });
   }
 }

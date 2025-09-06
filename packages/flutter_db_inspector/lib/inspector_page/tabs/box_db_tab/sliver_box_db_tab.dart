@@ -4,6 +4,7 @@ import 'package:db_inspector_core/db_inspector_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_db_inspector/helpers/context_extension.dart';
 import 'package:flutter_db_inspector/helpers/themes.dart';
+import 'package:flutter_db_inspector/shared_widgets/custom_button.dart';
 
 class SliverBoxDbTab extends StatefulWidget {
   const SliverBoxDbTab({super.key, required this.boxDB});
@@ -15,22 +16,29 @@ class SliverBoxDbTab extends StatefulWidget {
 }
 
 class _SliverBoxDbTabState extends State<SliverBoxDbTab> {
-  late final _boxEventSubscription;
+  late final StreamSubscription<StreamEvent<dynamic, dynamic>> _boxEventSubscription;
   final Map<String, List<dynamic>> _boxData = {};
 
   @override
   void initState() {
     print('Initializing BoxDB Tab');
     print('BoxDB: ${widget.boxDB}');
+    _init();
+    super.initState();
+  }
+  _init(){
+    final boxes = widget.boxDB.getOpenBoxes();
+    for(final box in boxes) {
+      _boxData[box] = [];
+    }
     _boxEventSubscription = (widget.boxDB.watchBoxes())
         .listen((event) {
-          // Handle box events here
-          setState(() {
-            final current = _boxData.putIfAbsent(event.streamId, () => []);
-            _boxData[event.streamId] = [...current, event];
-          });
-        });
-    super.initState();
+      // Handle box events here
+      setState(() {
+        final current = _boxData.putIfAbsent(event.streamId, () => []);
+        _boxData[event.streamId] = [...current, event];
+      });
+    });
   }
   @override
   void dispose() {
@@ -50,22 +58,37 @@ class _SliverBoxDbTabState extends State<SliverBoxDbTab> {
       padding: context.gridPadding(),
       sliver: SliverGrid(
         delegate: SliverChildBuilderDelegate((_, index) {
-          return Container(
-            height: 50,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: InspectorColors.boxBackground,
-              border: Border.all(color: InspectorColors.boxBorder, width: 1.5),
-            ),
-            child: Center(
-              child: Text(
-                _capitalizeFirstLetter(boxes.elementAt(index)),
-                style: TextStyle(
-                  color: InspectorColors.text,
-                  fontSize: InspectorFontSizes.fontSize,
-                  fontWeight: FontWeight.w600,
-                  decoration:TextDecoration.none,
-                ),
+          return CustomButton(
+            child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: InspectorColors.boxBackground,
+                border: Border.all(color: InspectorColors.boxBorder, width: 1.5),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    _capitalizeFirstLetter(boxes.elementAt(index)),
+                    style: TextStyle(
+                      color: InspectorColors.text,
+                      fontSize: InspectorFontSizes.headerFontSize,
+                      fontWeight: FontWeight.w600,
+                      decoration:TextDecoration.none,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Properties: ${_boxData[boxes.elementAt(index)]?.length ?? 0}',
+                    style: TextStyle(
+                      color: InspectorColors.text,
+                      fontSize: InspectorFontSizes.fontSize,
+                      fontWeight: FontWeight.w600,
+                      decoration:TextDecoration.none,
+                    ),
+                  ),
+                ],
               ),
             ),
           );
