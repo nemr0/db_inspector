@@ -18,7 +18,7 @@ class InspectorColors {
 }
 
 class InspectorFontSizes {
-  static const double fontSize = 14;
-  static const double headerFontSize = 16;
+  static const double fontSize = 15;
+  static const double headerFontSize = 17;
   static const double tabFontSize = 14;
 }

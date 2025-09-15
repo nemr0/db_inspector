@@ -37,8 +37,6 @@ class _InspectorOverlayState extends State<InspectorOverlay> {
       setState(() {
         changes = ++changes;
       });
-      print('change happened: $changes');
-
     });
     super.initState();
   }
@@ -54,8 +52,8 @@ class _InspectorOverlayState extends State<InspectorOverlay> {
       context: widget.navigatorKey.currentContext!,
       builder: (BuildContext context) => InspectorPage(dbTypes: widget.dbTypes),
     ).whenComplete(() {
-      FloatingOverlay.show(
-        widget.navigatorKey,
+      FloatingOverlay.instance.show(
+
         child: InspectorOverlay(
           dbTypes: widget.dbTypes,
           navigatorKey: widget.navigatorKey,
@@ -64,7 +62,7 @@ class _InspectorOverlayState extends State<InspectorOverlay> {
         assumedChildSize: Size(50, 50),
       );
     });
-    FloatingOverlay.hide();
+    FloatingOverlay.instance.hide();
   }
 
   @override

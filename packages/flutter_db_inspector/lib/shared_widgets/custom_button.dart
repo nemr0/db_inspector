@@ -34,6 +34,27 @@ class CustomButton extends StatelessWidget {
     this.tapOpacity = 0.6,
   });
 
+  factory CustomButton.assetIcon({
+    required String assetPath,
+    double? width,
+    double? height,
+    Color? color,
+    VoidCallback? onTap,
+    Duration animationDuration = const Duration(milliseconds: 100),
+    bool useFeedback = true,
+    EdgeInsets padding = EdgeInsets.zero,
+    double tapOpacity = 0.6,
+  }) {
+    return CustomButton(
+      onTap: onTap,
+      animationDuration: animationDuration,
+      useFeedback: useFeedback,
+      padding: padding,
+      tapOpacity: tapOpacity,
+      child: Image.asset(assetPath, width: width, height: height, color: color),
+    );
+  }
+
   /// Called when the button is tapped. If null the button is disabled.
   final VoidCallback? onTap;
 
@@ -45,10 +66,13 @@ class CustomButton extends StatelessWidget {
 
   /// When true, emits a light haptic impact on tap (platform permitting).
   final bool useFeedback;
+
   /// Padding around the child widget.
   final EdgeInsets padding;
+
   /// Opacity value when the button is tapped.
   final double tapOpacity;
+
   @override
   Widget build(BuildContext context) {
     // Local mutable state used by the StatefulBuilder to animate and prevent
@@ -64,6 +88,7 @@ class CustomButton extends StatelessWidget {
               setState(() {
                 tapped = false;
               });
+              onTap?.call();
             }
           },
           child: GestureDetector(
@@ -74,12 +99,8 @@ class CustomButton extends StatelessWidget {
                       tapped = true;
                     });
                     if (useFeedback) HapticFeedback.lightImpact();
-                    onTap?.call();
                   },
-            child: Padding(
-              padding: padding,
-              child: child,
-            ),
+            child: Padding(padding: padding, child: child),
           ),
         );
       },

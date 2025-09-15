@@ -38,6 +38,7 @@ class _InspectorPageState extends State<InspectorPage> {
               selectedDBIndex: selectedDBIndex,
               dbTypes: widget.dbTypes,
             ),
+
             if (widget.dbTypes.isNotEmpty)
             getDBWidget(widget.dbTypes[selectedDBIndex])
             else SliverFillRemaining(

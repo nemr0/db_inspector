@@ -222,7 +222,6 @@
         <entry key="flutter">
           <value>
             <list>
-              <option value="$USER_HOME$/.puro/envs/3.35.1/flutter/packages/flutter/lib" />
               <option value="$USER_HOME$/.puro/envs/stable/flutter/packages/flutter/lib" />
             </list>
           </value>
@@ -238,7 +237,6 @@
         <entry key="flutter_test">
           <value>
             <list>
-              <option value="$USER_HOME$/.puro/envs/3.35.1/flutter/packages/flutter_test/lib" />
               <option value="$USER_HOME$/.puro/envs/stable/flutter/packages/flutter_test/lib" />
             </list>
           </value>
@@ -534,7 +532,6 @@
         <entry key="sky_engine">
           <value>
             <list>
-              <option value="$USER_HOME$/.puro/envs/3.35.1/flutter/bin/cache/pkg/sky_engine/lib" />
               <option value="$USER_HOME$/.puro/envs/stable/flutter/bin/cache/pkg/sky_engine/lib" />
             </list>
           </value>
@@ -682,9 +679,6 @@
       </option>
     </properties>
     <CLASSES>
-      <root url="file://$USER_HOME$/.puro/envs/3.35.1/flutter/bin/cache/pkg/sky_engine/lib" />
-      <root url="file://$USER_HOME$/.puro/envs/3.35.1/flutter/packages/flutter/lib" />
-      <root url="file://$USER_HOME$/.puro/envs/3.35.1/flutter/packages/flutter_test/lib" />
       <root url="file://$USER_HOME$/.puro/envs/stable/flutter/bin/cache/pkg/sky_engine/lib" />
       <root url="file://$USER_HOME$/.puro/envs/stable/flutter/packages/flutter/lib" />
       <root url="file://$USER_HOME$/.puro/envs/stable/flutter/packages/flutter_test/lib" />

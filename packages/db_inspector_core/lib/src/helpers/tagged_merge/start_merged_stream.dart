@@ -5,16 +5,16 @@ import 'package:db_inspector_core/db_inspector_core.dart';
 import 'merged_stream.dart';
 
 
-Stream<StreamEvent<I,T>> startMergedStream<I, T>(
-    Iterable<Stream<StreamEvent<I,T>>> inputs, {
+Stream<StreamEvent<I,T,S>> startMergedStream<I, T,S>(
+    Iterable<Stream<StreamEvent<I,T,S>>> inputs, {
       bool cancelOnError = false,
     }) {
   if (inputs.isEmpty) {
-    return Stream<StreamEvent<I, T>>.empty();
+    return Stream<StreamEvent<I, T,S>>.empty();
   }
 
-  late StreamController<StreamEvent<I, T>> controller;
-  final subs = <StreamSubscription<StreamEvent<I,T>>>[];
+  late StreamController<StreamEvent<I, T,S>> controller;
+  final subs = <StreamSubscription<StreamEvent<I,T,S>>>[];
   var completed = 0;
   var closing = false;
 
@@ -30,7 +30,8 @@ Stream<StreamEvent<I,T>> startMergedStream<I, T>(
     for (final src in inputs) {
       final sub = src.listen(
             (data) {
-          if (!closing) controller.add(StreamEvent(data.streamId, data.data));
+
+          if (!closing) controller.add(StreamEvent(streamId: data.streamId, data: data.data, key: data.key, isDeleted: data.isDeleted));
         },
         onError: (err, st) async {
           controller.addError(err, st);
@@ -53,7 +54,7 @@ Stream<StreamEvent<I,T>> startMergedStream<I, T>(
     }
   }
 
-  controller = StreamController<StreamEvent<I, T>>(
+  controller = StreamController<StreamEvent<I, T,S>>(
     onListen: attach,
     onPause: () {
       for (final s in subs) {

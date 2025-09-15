@@ -12,17 +12,18 @@ class DbInspector extends StatelessWidget {
   final Widget child;
   final GlobalKey<NavigatorState> navigatorKey;
 
-  showOverlay() => FloatingOverlay.show(navigatorKey, child:  InspectorOverlay(dbTypes: dbTypes, navigatorKey: navigatorKey,));
+  showOverlay() => FloatingOverlay.instance.show( child:  InspectorOverlay(dbTypes: dbTypes, navigatorKey: navigatorKey,));
 
 
   hideOverlay() {
-    FloatingOverlay.hide();
+    FloatingOverlay.instance.hide();
   }
 
   @override
   Widget build(BuildContext context) {
     return _WidgetStateHandler(
         initStateCallback: (context) async {
+          FloatingOverlay.instance.init(navigatorKey);
          await Future.wait([...dbTypes.map((e)=>e.connect())]);
           if(context.mounted) showOverlay();
         },

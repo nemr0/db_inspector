@@ -32,10 +32,12 @@ extension ContextExtension on BuildContext {
   EdgeInsets get viewPadding => MediaQuery.paddingOf(this);
 
   /// Padding to apply around a grid, with optional bottom inset for safe area.
-  EdgeInsets gridPadding({bool addBottom = true}) => EdgeInsets.only(
-    top: 12,
-    bottom: addBottom ? viewPadding.bottom : 0,
-    right: 8,
-    left: 8,
+  EdgeInsets gridPadding({bool addBottom = true, bool addTop = true, bool verticalOnly = false}) => EdgeInsets.only(
+    top: addTop ? 12 : 0,
+    bottom: addBottom ? viewPadding.bottom +30 : 0,
+    right: verticalOnly ? 0 :8,
+    left: verticalOnly ? 0 : 8,
   );
+
+
 }
