@@ -9,17 +9,18 @@ class ToastOverlayWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      bottom: context.viewPadding.bottom + 20,
+    return Align(
+      alignment:  Alignment.bottomCenter,
       child: Container(
         decoration: BoxDecoration(
           color: InspectorColors.headerBackground,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: InspectorColors.selectedTabBorder,
+            color: InspectorColors.selectedTabBorder.withAlpha(100),
             width: 1.5,
           ),
         ),
+        margin: EdgeInsets.only(bottom: context.viewPadding.bottom),
         padding: EdgeInsets.all(8),
         child: Text(
           message,

@@ -25,8 +25,6 @@ class _SliverBoxDbTabState extends State<SliverBoxDbTab> {
 
   @override
   void initState() {
-    print('Initializing BoxDB Tab');
-    print('BoxDB: ${widget.boxDB}');
     _init();
     super.initState();
   }
@@ -53,8 +51,6 @@ class _SliverBoxDbTabState extends State<SliverBoxDbTab> {
   @override
   Widget build(BuildContext context) {
     final boxes = _boxData.keys;
-    print('boxes: $boxes');
-    print('boxData: $_boxData');
     final boxSelected = selectedBox != null && boxes.contains(selectedBox);
     return SliverPadding(
       padding: context.gridPadding(

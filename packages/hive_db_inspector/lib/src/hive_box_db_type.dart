@@ -53,37 +53,6 @@ class HiveDB implements BoxDB {
   Box _getBoxByName(String boxName) {
     return boxes.firstWhere((e) => e.name == boxName);
   }
-  /// Make a merged stream of all box watch streams with start value of current box data
-  /// Make a merged stream of all box watch streams with start value of current box data
-  @override
-  Stream<StreamEvent<String, dynamic,dynamic>> watchBoxes({
-    bool addInitialData = true,
-  }) {
-    return startMergedStream<String, dynamic,dynamic>(
-      boxes.map((box) {
-        return (() async* {
-          if (addInitialData) {
-            for (final key in box.keys) {
-              yield StreamEvent(
-                key: key,
-                isDeleted: false,
-                data: box.get(key),
-                streamId: box.name,
-              );
-            }
-          }
-          yield* box.watch().map(
-            (data) => StreamEvent(
-              key: data.key,
-              isDeleted: data.deleted,
-              data: data.value,
-              streamId: box.name,
-            ),
-          );
-        })();
-      }),
-    );
-  }
 
   @override
   bool get isConnected => _isConnected;
@@ -97,9 +66,12 @@ class HiveDB implements BoxDB {
   @override
   Stream<int> get onChange {
     var count = 0;
-    return watchBoxes(addInitialData: false).map((_) {
-      count = ++count;
-      return count;
+    return Stream.multi((ctr) async {
+       for(final box in boxes) {
+        await ctr.addStream(box.watch().map((e){
+          return ++count;
+        }));
+      }
     });
   }
 
@@ -112,7 +84,6 @@ class HiveDB implements BoxDB {
     final box = _getBoxByName(boxName);
     final Map<dynamic, StreamEvent> data = {};
     if (addInitialData) {
-      print('data is empty, adding initial data for box: $boxName');
       for (final key in box.keys) {
         data[key] = StreamEvent(
           key: key,
@@ -124,8 +95,6 @@ class HiveDB implements BoxDB {
       yield Map<dynamic, StreamEvent>.from(data);
     }
     yield* box.watch().map((value){
-      print(addInitialData);
-      print(data);
         final old = data[value.key];
       if(value.deleted && old != null) {
         data[value.key] = old.copyWith(isDeleted: true);
@@ -150,7 +119,6 @@ class HiveDB implements BoxDB {
     return Stream.multi((controller) {
       final currentBoxes = boxes;
       final Map<String, int> boxesToLength = {};
-      final List<StreamSubscription> listeners = [];
 
       // Initialize box lengths if requested
       if (addInitialData) {
@@ -162,35 +130,19 @@ class HiveDB implements BoxDB {
 
       // Listen to changes in each box
       for (final box in currentBoxes) {
-        listeners.add(
-          box.watch().listen((data) {
+        controller.addStream(
+          box.watch().map((data) {
             if (data.deleted) {
               boxesToLength[box.name] = (boxesToLength[box.name] ?? 0) - 1;
             } else {
               boxesToLength[box.name] = (boxesToLength[box.name] ?? 0) + 1;
             }
-            controller.add(Map.from(boxesToLength));
+           return Map.from(boxesToLength);
           }),
         );
       }
 
-      // Clean up listeners when stream is cancelled
-      controller.onCancel = () {
-        for (final listener in listeners) {
-          listener.cancel();
-        }
-      };
 
-      controller.onPause = () {
-        for (final listener in listeners) {
-          listener.pause();
-        }
-      };
-      controller.onResume = () {
-        for (final listener in listeners) {
-          listener.resume();
-        }
-      };
     });
   }
 }
