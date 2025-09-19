@@ -37,7 +37,24 @@ extension PrettyFormatter on String {
             buf.write(indent());
             atLineStart = false;
           }
+          newLine();
           buf.write(')');
+          break;
+        case '[':
+          writeWithIndent('[');
+          newLine();
+          depth++;
+          break;
+        case ']':
+          depth = (depth - 1).clamp(0, 1 << 30);
+          if (atLineStart) {
+            // place closing on its own line with current (decreased) indent
+            buf.write(indent());
+            atLineStart = false;
+          }
+          newLine();
+          buf.write(']');
+
           break;
         case ',':
           buf.write(',');

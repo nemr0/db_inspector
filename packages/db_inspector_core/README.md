@@ -1,39 +1,22 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# db_inspector_core
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+db_inspector_core defines the stable contract (interfaces and expectations) for database adapters used by the db_inspector tools.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
+Goals
+- Provide a minimal, stable contract for adapters.
+- Support Box (Hive-style) and generic key–value stores initially.
+- Allow future addition of SQL-style inspectors without breaking adapters.
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+Quick start
+1. Read docs/CONTRACT.md to learn the required interfaces and lifecycle methods.
+2. Use the reference adapter at ../hive_db_inspector/lib as an example implementation.
+3. Implement the interfaces and expose a factory (e.g. createDbInspector(Map config)) so the host app can obtain your adapter.
 
-## Features
+Where to look
+- Contract: docs/CONTRACT.md
+- Reference implementation: ../hive_db_inspector/lib
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+Contributing & testing
+- Add unit tests for listContainers, openContainer, entries, put, delete, and watch.
+- Keep the public contract stable; document breaking changes clearly.
 
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
-```
-
-## Additional information
-
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.

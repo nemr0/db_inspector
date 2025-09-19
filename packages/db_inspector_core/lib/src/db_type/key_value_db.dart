@@ -10,4 +10,7 @@ abstract class KeyValueDB extends DB {
   Future<void> deleteKey(String key);
   /// Retrieves all keys along with their corresponding values.
   Future<Map<String, dynamic>> getAllKeysAndValues();
+
+  /// Watches for changes in the key-value pairs and emits a stream of key-value tuples.
+  Stream<(String key, dynamic value)> watch();
 }

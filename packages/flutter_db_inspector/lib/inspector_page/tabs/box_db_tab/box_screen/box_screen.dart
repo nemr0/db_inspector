@@ -49,43 +49,56 @@ class _BoxScreenState extends State<BoxScreen> {
       color: InspectorColors.background.withAlpha(200),
       child: CustomScrollView(
         slivers: [
-          PinnedHeaderSliver(
+          SliverFloatingHeader(
             child:  Container(
               padding: const EdgeInsets.all(8.0),
 
               decoration: BoxDecoration(color: InspectorColors.headerBackground),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
                 children: [
-                  RotatedBox(
-                    quarterTurns: 2,
-                    child: CustomButton.assetIcon(
-                      onTap: () => Navigator.of(context).pop(),
-                      assetPath: AssetsPaths.arrowLeft,
-                      padding: const EdgeInsets.all(8.0),
-                      height: 24,
-                      width: 24,
-                    ),
-                  ),
-                  Center(
-                    child: Text(
-                      "BOX: ${widget.name}",
-                      style: TextStyle(
-                        color: InspectorColors.text,
-                        fontSize: InspectorFontSizes.headerFontSize,
-                        fontWeight: FontWeight.w600,
-                        decoration: TextDecoration.none,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      RotatedBox(
+                        quarterTurns: 2,
+                        child: CustomButton.assetIcon(
+                          onTap: () => Navigator.of(context).pop(),
+                          assetPath: AssetsPaths.arrowLeft,
+                          padding: const EdgeInsets.all(8.0),
+                          height: 24,
+                          width: 24,
+                        ),
                       ),
-                    ),
+                      Spacer(),
+                      Text(
+                        "BOX: ${widget.name}",
+                        style: TextStyle(
+                          color: InspectorColors.text,
+                          fontSize: InspectorFontSizes.headerFontSize,
+                          fontWeight: FontWeight.w600,
+                          decoration: TextDecoration.none,
+                        ),
+                      ),
+                      Spacer(),
+                      CustomButton.assetIcon(
+                        onTap: () async {
+                         await Clipboard.setData(ClipboardData(text: (data.values.map((s)=>s.data.toString())).toList().toString().toPrettyFormattedString ));
+                          FloatingOverlay.instance.showToast('✅ Copied all to clipboard');
+                        },
+                        assetPath: AssetsPaths.copy,
+                        padding: const EdgeInsets.all(8.0),
+                        height: 24,
+                        width: 24,
+                      ),CustomButton.assetIcon(
+                        onTap: null,
+                        assetPath: AssetsPaths.delete,
+                        padding: const EdgeInsets.all(8.0),
+                        height: 24,
+                        width: 24,
+                      ),
+                    ],
                   ),
-                  CustomButton.assetIcon(
-                    onTap: null,
-                    assetPath: AssetsPaths.arrowLeft,
-                    padding: const EdgeInsets.all(8.0),
-                    color: Color(0x00000000),
-                    height: 24,
-                    width: 24,
-                  ),
+
                 ],
               ),
             ),

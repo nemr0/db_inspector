@@ -7,6 +7,6 @@ abstract class DB {
   /// Disconnects from the database.
   Future<void> disconnect();
 
-  bool get isConnected;
+  /// A stream that emits an integer value whenever there is a change in the database.
   Stream<int> get onChange;
 }
