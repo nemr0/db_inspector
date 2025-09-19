@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
 <module fileurl="file://$PROJECT_DIR$/packages/db_inspector_core/melos_db_inspector_core.iml" filepath="$PROJECT_DIR$/packages/db_inspector_core/melos_db_inspector_core.iml" />
+<module fileurl="file://$PROJECT_DIR$/packages/flutter_db_inspector/melos_flutter_db_inspector.iml" filepath="$PROJECT_DIR$/packages/flutter_db_inspector/melos_flutter_db_inspector.iml" />
 <module fileurl="file://$PROJECT_DIR$/packages/hive_db_inspector/melos_hive_db_inspector.iml" filepath="$PROJECT_DIR$/packages/hive_db_inspector/melos_hive_db_inspector.iml" />
+<module fileurl="file://$PROJECT_DIR$/packages/shared_preferences_db_inspector/melos_shared_preferences_db_inspector.iml" filepath="$PROJECT_DIR$/packages/shared_preferences_db_inspector/melos_shared_preferences_db_inspector.iml" />
 <module fileurl="file://$PROJECT_DIR$/melos_db_inspector.iml" filepath="$PROJECT_DIR$/melos_db_inspector.iml" />
     </modules>
   </component>

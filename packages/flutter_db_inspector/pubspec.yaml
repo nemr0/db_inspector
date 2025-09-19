@@ -1,6 +1,7 @@
 name: flutter_db_inspector
 description: "A new Flutter package project."
 version: 0.0.1
+resolution: workspace
 homepage:
 
 environment:
