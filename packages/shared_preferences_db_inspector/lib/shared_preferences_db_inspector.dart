@@ -1,0 +1,159 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:db_inspector_core/db_inspector_core.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class SharedPreferencesDbInspector implements KeyValueDB {
+  late final SharedPreferences _preferences;
+  final Map<String, Object?> _cache = {};
+  @override
+  Future<void> connect() async{
+    _preferences = await SharedPreferences.getInstance();
+  }
+
+  @override
+  Future<void> deleteKey(String key) {
+   return _preferences.remove(key);
+  }
+
+  @override
+  Future<void> disconnect() async {}
+
+  @override
+  Future<Map<String, dynamic>> getAllKeysAndValues() {
+    final keys = _preferences.getKeys();
+    final map = <String, dynamic>{};
+    for (final key in keys) {
+      map[key] = _preferences.get(key);
+    }
+    return Future.value(map);
+  }
+  @override
+  Future<Object?> getValue(String key) async {
+    return _preferences.get(key);
+  }
+
+  @override
+  String get name => 'Shared Preferences';
+
+  @override
+  Stream<int> get onChange {
+   int changesCount = 0;
+    return Stream<int>.multi((controller){
+      Timer timer = Timer.periodic(const Duration(seconds: 5),(t)=>_periodicallyWatchChanges(t, controller, changesCount) );
+      controller.onCancel = (){
+        timer.cancel();
+      };
+      controller.onPause = (){
+        timer.cancel();
+      };
+      controller.onResume = (){
+        // Restart the timer
+       timer = Timer.periodic(const Duration(seconds: 5),(t)=>_periodicallyWatchChanges(t, controller, changesCount) );
+      };
+    });
+  }
+  void _periodicallyWatchChanges(Timer timer,StreamController<int> controller,int currentChanges) async {
+    final currentKeys = _preferences.getKeys();
+    // Check for added or updated keys
+    for (final key in currentKeys) {
+      final currentValue = _preferences.get(key);
+      if (!_cache.containsKey(key)) {
+        // New key added
+        _cache[key] = currentValue;
+        controller.add(++currentChanges);
+      } else if (_cache[key] != currentValue) {
+        // Key value updated
+        _cache[key] = currentValue;
+        controller.add(++currentChanges);
+      }
+    }
+    // Check for deleted keys
+    final cachedKeys = List<String>.from(_cache.keys);
+    for (final key in cachedKeys) {
+      if (!currentKeys.contains(key)) {
+        // Key deleted
+        final oldValue = _cache.remove(key);
+        controller.add(++currentChanges);
+      }
+    }
+  }
+
+  @override
+  Future<void> setValue(String key,dynamic value) {
+
+    if(int.tryParse(value.toString()) is int){
+      return _preferences.setInt(key, value);
+    } else if(double.tryParse(value.toString()) is double){
+      return _preferences.setDouble(key, value);
+    } else if(bool.tryParse(value) is bool){
+      return _preferences.setBool(key, value);
+    }
+    final listString = _checkIfListString(value);
+    if(listString != null){
+      return _preferences.setStringList(key, listString);
+    } else if(value is String){
+      return _preferences.setString(key, value);
+    }  else {
+      throw UnimplementedError('Type ${value.runtimeType} is not supported');
+    }
+  }
+  List<String>? _checkIfListString(String value){
+    try{
+      final decoded = jsonDecode(value);
+      if(decoded is List<String>){
+        return decoded;
+      }
+      return null;
+    } catch(e){
+      return null;
+    }
+  }
+  @override
+   KeyValueController get controller => KeyValueController(watcher(), getAllKeysAndValues);
+
+  @override
+  Stream<StreamEvent> watcher() {
+    return Stream<StreamEvent>.multi((controller){
+      Timer timer = Timer.periodic(const Duration(seconds: 5),(t)=>_periodicallyAddStreamEvents(t, controller) );
+      controller.onCancel = (){
+        timer.cancel();
+      };
+      controller.onPause = (){
+        timer.cancel();
+      };
+      controller.onResume = (){
+        // Restart the timer
+       timer = Timer.periodic(const Duration(seconds: 5),(t)=>_periodicallyAddStreamEvents(t, controller) );
+      };
+    });
+  }
+ void _periodicallyAddStreamEvents(Timer timer,StreamController<StreamEvent> controller) async {
+    final currentKeys = _preferences.getKeys();
+    // Check for added or updated keys
+    for (final key in currentKeys) {
+      final currentValue = _preferences.get(key);
+      if (!_cache.containsKey(key)) {
+        // New key added
+        _cache[key] = currentValue;
+        controller.add(StreamEvent(streamId: null, data: currentValue, key: key, isDeleted: false));
+      } else if (_cache[key] != currentValue) {
+        // Key value updated
+        _cache[key] = currentValue;
+        controller.add(StreamEvent(streamId: null, data: currentValue, key: key, isDeleted: false));
+      }
+    }
+    // Check for deleted keys
+    final cachedKeys = List<String>.from(_cache.keys);
+    for (final key in cachedKeys) {
+      if (!currentKeys.contains(key)) {
+        // Key deleted
+        final oldValue = _cache.remove(key);
+        controller.add(StreamEvent(streamId: null, data: oldValue, key: key, isDeleted: true));
+      }
+    }
+  }
+
+}
+

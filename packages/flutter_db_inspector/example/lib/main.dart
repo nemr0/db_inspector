@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:shared_preferences_db_inspector/shared_preferences_db_inspector.dart';
 
 import 'models/todos.dart';
 import 'package:flutter_db_inspector/flutter_db_inspector.dart';
@@ -29,7 +30,9 @@ class MyApp extends StatelessWidget {
       navigatorKey: navigatorKey,
       dbTypes: [HiveDB(boxes: {
         Hive.box<Todo>('todos')
-      })],
+      }),
+      SharedPreferencesDbInspector(),
+      ],
       child: MaterialApp(
         title: 'Hive Todos',
         theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.blue),

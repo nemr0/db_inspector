@@ -15,6 +15,9 @@ dependencies:
     path: ../
   hive_db_inspector:
     path: ../../hive_db_inspector
+  shared_preferences: ^2.5.3
+  shared_preferences_db_inspector:
+    path: ../../shared_preferences_db_inspector
 dev_dependencies:
   flutter_test:
     sdk: flutter

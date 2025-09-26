@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data' show Uint8List;
-
+// ignore_for_file: implementation_imports
 import 'package:db_inspector_core/db_inspector_core.dart';
-import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 import 'package:hive/src/box/default_compaction_strategy.dart';
 import 'package:hive/src/box/default_key_comparator.dart';
@@ -176,7 +175,7 @@ class HiveDB implements BoxDB {
   }
 }
 
-class BoxOptions extends Equatable {
+class BoxOptions  {
   final HiveCipher? encryptionCipher;
   final KeyComparator keyComparator;
   final CompactionStrategy compactionStrategy;
@@ -194,14 +193,4 @@ class BoxOptions extends Equatable {
     this.keyComparator = defaultKeyComparator,
   });
 
-  @override
-  List<Object?> get props => [
-    encryptionCipher,
-    keyComparator,
-    compactionStrategy,
-    crashRecovery,
-    path,
-    bytes,
-    collection,
-  ];
 }

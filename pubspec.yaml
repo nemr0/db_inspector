@@ -10,8 +10,6 @@ workspace:
 environment:
   sdk: ">=3.5.0 <4.0.0"
 # repo-root/pubspec.yaml
-dependency_overrides:
-  equatable: ^2.0.7
 
 dev_dependencies:
   melos: ^7.1.0
