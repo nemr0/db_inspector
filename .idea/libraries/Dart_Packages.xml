@@ -215,7 +215,6 @@
         <entry key="flutter">
           <value>
             <list>
-              <option value="$USER_HOME$/.puro/envs/3.35.1/flutter/packages/flutter/lib" />
               <option value="$USER_HOME$/.puro/envs/stable/flutter/packages/flutter/lib" />
             </list>
           </value>
@@ -223,15 +222,14 @@
         <entry key="flutter_lints">
           <value>
             <list>
-              <option value="$USER_HOME$/.puro/shared/pub_cache/hosted/pub.dev/flutter_lints-5.0.0/lib" />
               <option value="$USER_HOME$/.puro/shared/pub_cache/hosted/pub.dev/flutter_lints-4.0.0/lib" />
+              <option value="$USER_HOME$/.puro/shared/pub_cache/hosted/pub.dev/flutter_lints-5.0.0/lib" />
             </list>
           </value>
         </entry>
         <entry key="flutter_test">
           <value>
             <list>
-              <option value="$USER_HOME$/.puro/envs/3.35.1/flutter/packages/flutter_test/lib" />
               <option value="$USER_HOME$/.puro/envs/stable/flutter/packages/flutter_test/lib" />
             </list>
           </value>
@@ -239,7 +237,6 @@
         <entry key="flutter_web_plugins">
           <value>
             <list>
-              <option value="$USER_HOME$/.puro/envs/3.35.1/flutter/packages/flutter_web_plugins/lib" />
               <option value="$USER_HOME$/.puro/envs/stable/flutter/packages/flutter_web_plugins/lib" />
             </list>
           </value>
@@ -352,8 +349,8 @@
         <entry key="lints">
           <value>
             <list>
-              <option value="$USER_HOME$/.puro/shared/pub_cache/hosted/pub.dev/lints-5.1.1/lib" />
               <option value="$USER_HOME$/.puro/shared/pub_cache/hosted/pub.dev/lints-4.0.0/lib" />
+              <option value="$USER_HOME$/.puro/shared/pub_cache/hosted/pub.dev/lints-5.1.1/lib" />
             </list>
           </value>
         </entry>
@@ -528,8 +525,8 @@
         <entry key="shared_preferences_android">
           <value>
             <list>
-              <option value="$USER_HOME$/.puro/shared/pub_cache/hosted/pub.dev/shared_preferences_android-2.4.12/lib" />
               <option value="$USER_HOME$/.puro/shared/pub_cache/hosted/pub.dev/shared_preferences_android-2.4.13/lib" />
+              <option value="$USER_HOME$/.puro/shared/pub_cache/hosted/pub.dev/shared_preferences_android-2.4.12/lib" />
             </list>
           </value>
         </entry>
@@ -585,7 +582,6 @@
         <entry key="sky_engine">
           <value>
             <list>
-              <option value="$USER_HOME$/.puro/envs/3.35.1/flutter/bin/cache/pkg/sky_engine/lib" />
               <option value="$USER_HOME$/.puro/envs/stable/flutter/bin/cache/pkg/sky_engine/lib" />
             </list>
           </value>
@@ -733,10 +729,6 @@
       </option>
     </properties>
     <CLASSES>
-      <root url="file://$USER_HOME$/.puro/envs/3.35.1/flutter/bin/cache/pkg/sky_engine/lib" />
-      <root url="file://$USER_HOME$/.puro/envs/3.35.1/flutter/packages/flutter/lib" />
-      <root url="file://$USER_HOME$/.puro/envs/3.35.1/flutter/packages/flutter_test/lib" />
-      <root url="file://$USER_HOME$/.puro/envs/3.35.1/flutter/packages/flutter_web_plugins/lib" />
       <root url="file://$USER_HOME$/.puro/envs/stable/flutter/bin/cache/pkg/sky_engine/lib" />
       <root url="file://$USER_HOME$/.puro/envs/stable/flutter/packages/flutter/lib" />
       <root url="file://$USER_HOME$/.puro/envs/stable/flutter/packages/flutter_test/lib" />

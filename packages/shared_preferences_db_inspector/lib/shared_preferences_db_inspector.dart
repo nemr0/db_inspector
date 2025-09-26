@@ -27,6 +27,7 @@ class SharedPreferencesDbInspector implements KeyValueDB {
     for (final key in keys) {
       map[key] = _preferences.get(key);
     }
+    print('getAllKeysAndValues: $map');
     return Future.value(map);
   }
   @override
@@ -82,24 +83,30 @@ class SharedPreferencesDbInspector implements KeyValueDB {
 
   @override
   Future<void> setValue(String key,dynamic value) {
-
-    if(int.tryParse(value.toString()) is int){
-      return _preferences.setInt(key, value);
-    } else if(double.tryParse(value.toString()) is double){
-      return _preferences.setDouble(key, value);
-    } else if(bool.tryParse(value) is bool){
-      return _preferences.setBool(key, value);
+    final asInt =int.tryParse(value.toString());
+    if(asInt is int){
+      return _preferences.setInt(key, asInt);
+    }
+    final asDouble = double.tryParse(value.toString());
+    if(asDouble is double){
+      return _preferences.setDouble(key, asDouble);
+    }
+    final asBool = bool.tryParse(value.toString());
+    if(asBool is bool){
+      return _preferences.setBool(key, asBool);
     }
     final listString = _checkIfListString(value);
     if(listString != null){
       return _preferences.setStringList(key, listString);
     } else if(value is String){
       return _preferences.setString(key, value);
-    }  else {
+    } else if (value == null) {
+      return _preferences.setString(key, 'null');
+    }else {
       throw UnimplementedError('Type ${value.runtimeType} is not supported');
     }
   }
-  List<String>? _checkIfListString(String value){
+  List<String>? _checkIfListString(dynamic value){
     try{
       final decoded = jsonDecode(value);
       if(decoded is List<String>){
@@ -110,8 +117,6 @@ class SharedPreferencesDbInspector implements KeyValueDB {
       return null;
     }
   }
-  @override
-   KeyValueController get controller => KeyValueController(watcher(), getAllKeysAndValues);
 
   @override
   Stream<StreamEvent> watcher() {
@@ -130,6 +135,7 @@ class SharedPreferencesDbInspector implements KeyValueDB {
     });
   }
  void _periodicallyAddStreamEvents(Timer timer,StreamController<StreamEvent> controller) async {
+    print('Checking for changes in SharedPreferences...');
     final currentKeys = _preferences.getKeys();
     // Check for added or updated keys
     for (final key in currentKeys) {
