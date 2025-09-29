@@ -1,4 +1,5 @@
 import 'package:db_inspector_core/db_inspector_core.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_db_inspector/helpers/themes.dart';
 import 'package:flutter_db_inspector/shared_widgets/custom_button.dart';
@@ -29,7 +30,7 @@ class _SliverKeyValueDbTabState extends State<SliverKeyValueDbTab> {
     super.dispose();
   }
 
-  Future<void> _onSaveKey(String? key, MapEntry<String, dynamic>? oldValue) async {
+  Future<void> _onSaveKey(String? key, MapEntry<String, StreamEvent>? oldValue) async {
 
     if (key == null) {
       setState(() {
@@ -54,7 +55,7 @@ class _SliverKeyValueDbTabState extends State<SliverKeyValueDbTab> {
       return;
     }
     await widget.db.deleteKey(oldValue.key);
-    await widget.db.setValue(key, oldValue.value);
+    await widget.db.setValue(key, oldValue.value.data);
     await controller.refresh();
     setState(() {
       selectedKey = null;
@@ -113,7 +114,7 @@ class _SliverKeyValueDbTabState extends State<SliverKeyValueDbTab> {
                       children: [
                         CellWidget(entry.value.data.runtimeType.toString()),
                         if (selectedKey == entry.key && entry.value.isDeleted == false)
-                          KeyValueEditor(
+                          EditorCell(
                             value: entry.key,
                             onSave: (value) => _onSaveKey(value, entry),
                           )
@@ -124,46 +125,20 @@ class _SliverKeyValueDbTabState extends State<SliverKeyValueDbTab> {
                               selectedKey = entry.key;
                             });
                           },),
-                          if(selectedValue == entry.value.data && entry.value.isDeleted == false) KeyValueEditor(
-                            value: entry.value,
+                          if(selectedValue == entry.value.data && entry.value.isDeleted == false) EditorCell(
+                            value: entry.value.data,
                             onSave: (value) => _onSaveValue(MapEntry(entry.key, value)),
-                          ) else CellWidget(entry.value.toString(),onTap: () {
+                          ) else CellWidget(entry.value.data.toString(),onTap:entry.value.isDeleted ? null : () {
                             setState(() {
                               selectedKey = null;;
-                              selectedValue = entry.value;
+                              selectedValue = entry.value.data;
                             });
                           },)
 
                       ],
                     );
                   }),
-                  TableRow(
-                    decoration: BoxDecoration(
-                      color: InspectorColors.selectedTabBorder.withAlpha(20),
-                    ),
-                    children: [
-                      CellWidget('NEW'),
-                      if (selectedKey == '')
-                        KeyValueEditor(
-                          value: 'new_key',
-                          onSave: (value) => _onSaveKey(value, null),
-                        ) else CellWidget('new_key', onTap: (){
-                        setState(() {
-                          selectedValue = null;
-                          selectedKey = '';
-                        });
-                      },),
-                     if(selectedValue == '') KeyValueEditor(
-                        value: 'newValue',
-                          onSave: (value) => _onSaveValue(MapEntry('newValue', value)),
-                      ) else CellWidget('newValue',onTap: (){
-                        setState(() {
-                          selectedKey = null;
-                          selectedValue = '';
-                        });
-                      },),
-                    ],
-                  )
+
                 ],
               );
             },
@@ -223,17 +198,17 @@ class CellWidget extends StatelessWidget {
   }
 }
 
-class KeyValueEditor extends StatefulWidget {
-  const KeyValueEditor({super.key, this.value, this.onSave});
+class EditorCell extends StatefulWidget {
+  const EditorCell({super.key, this.value, this.onSave});
 
   final dynamic value;
   final ValueChanged<String?>? onSave;
 
   @override
-  State<KeyValueEditor> createState() => _KeyValueEditorState();
+  State<EditorCell> createState() => _EditorCellState();
 }
 
-class _KeyValueEditorState extends State<KeyValueEditor> {
+class _EditorCellState extends State<EditorCell> {
   late TextEditingController controller;
   late final String initialValue;
 
@@ -278,3 +253,44 @@ class _KeyValueEditorState extends State<KeyValueEditor> {
     );
   }
 }
+
+
+class CellBody extends StatelessWidget {
+  const CellBody({super.key, required this.isSelected, this.entry});
+  final bool isSelected;
+  final MapEntry<String, StreamEvent>? entry;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          padding: EdgeInsets.all(5),
+          height: 5,
+          width: 5,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: isSelected ? InspectorColors.selectedTab : InspectorColors.unSelectedTabBorder,
+          ),
+        ),
+        Divider(
+          color: InspectorColors.unSelectedTabBorder,
+          indent: 5,
+          endIndent: 5,
+        ),
+        Text(
+          entry?.key ?? 'New_Key',
+          style: TextStyle(
+            fontSize: InspectorFontSizes.fontSize,
+            color: InspectorColors.text,
+            decoration: TextDecoration.none,
+          ),
+        ),
+
+      ],
+    );
+  }
+}
+
+
+
