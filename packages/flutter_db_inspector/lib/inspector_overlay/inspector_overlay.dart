@@ -35,7 +35,7 @@ class _InspectorOverlayState extends State<InspectorOverlay> {
     changes = widget.initialChanges;
     _changesSubscription = widget.dbTypes.onChangedAll.listen((event) {
       setState(() {
-        changes = ++changes;
+        changes = event;
       });
     });
     super.initState();

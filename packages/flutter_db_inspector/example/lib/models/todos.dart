@@ -1,3 +1,4 @@
+import 'package:flutter_db_inspector/flutter_db_inspector.dart';
 import 'package:hive/hive.dart';
 
 part 'todos.g.dart'; // <- not used here, but keeping the line is harmless
@@ -10,7 +11,7 @@ class Todo extends HiveObject with Serialized {
 
   @HiveField(1)
   bool done;
-  dynamic get id => key as int;
+  dynamic get id => key;
   Todo({required this.title, this.done = false});
 
   @override
@@ -34,7 +35,3 @@ class Todo extends HiveObject with Serialized {
 
 }
 
-mixin Serialized<T> {
-  T fromJson(Map<String, dynamic> json);
-  Map<String, dynamic> toJson();
-}

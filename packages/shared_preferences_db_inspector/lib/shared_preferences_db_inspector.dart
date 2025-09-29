@@ -18,7 +18,10 @@ class SharedPreferencesDbInspector implements KeyValueDB {
   }
 
   @override
-  Future<void> disconnect() async {}
+  Future<void> disconnect() async {
+    _cache.clear();
+
+  }
 
   @override
   Future<Map<String, dynamic>> getAllKeysAndValues() {
@@ -39,10 +42,20 @@ class SharedPreferencesDbInspector implements KeyValueDB {
   String get name => 'Shared Preferences';
 
   @override
-  Stream<int> get onChange {
-   int changesCount = 0;
+  Stream<int> get noOfProperties {
     return Stream<int>.multi((controller){
-      Timer timer = Timer.periodic(const Duration(seconds: 5),(t)=>_periodicallyWatchChanges(t, controller, changesCount) );
+      int count = _preferences.getKeys().length;
+      print('count: $count');
+      controller.add(count);
+      Timer timer = Timer.periodic(const Duration(seconds: 3),(t){
+        print('streaming');
+        final currentLength = _preferences.getKeys().length;
+        if(currentLength == count){
+          return;
+        }
+        count = currentLength;
+        controller.add(currentLength);
+      });
       controller.onCancel = (){
         timer.cancel();
       };
@@ -51,34 +64,9 @@ class SharedPreferencesDbInspector implements KeyValueDB {
       };
       controller.onResume = (){
         // Restart the timer
-       timer = Timer.periodic(const Duration(seconds: 5),(t)=>_periodicallyWatchChanges(t, controller, changesCount) );
+       timer = Timer.periodic(const Duration(seconds: 5),(t)=>_preferences.getKeys().length);
       };
     });
-  }
-  void _periodicallyWatchChanges(Timer timer,StreamController<int> controller,int currentChanges) async {
-    final currentKeys = _preferences.getKeys();
-    // Check for added or updated keys
-    for (final key in currentKeys) {
-      final currentValue = _preferences.get(key);
-      if (!_cache.containsKey(key)) {
-        // New key added
-        _cache[key] = currentValue;
-        controller.add(++currentChanges);
-      } else if (_cache[key] != currentValue) {
-        // Key value updated
-        _cache[key] = currentValue;
-        controller.add(++currentChanges);
-      }
-    }
-    // Check for deleted keys
-    final cachedKeys = List<String>.from(_cache.keys);
-    for (final key in cachedKeys) {
-      if (!currentKeys.contains(key)) {
-        // Key deleted
-        final oldValue = _cache.remove(key);
-        controller.add(++currentChanges);
-      }
-    }
   }
 
   @override

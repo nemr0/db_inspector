@@ -129,7 +129,8 @@ class _TodoPageState extends State<TodoPage> {
 
   Future<void> _deleteTodo(Todo todo) async {
     await todo.delete();
-    await preferences.remove(todo.id.toString());
+   final contains = preferences.containsKey(todo.id.toString());
+   if(contains) await preferences.remove(todo.id.toString());
   }
 
   @override

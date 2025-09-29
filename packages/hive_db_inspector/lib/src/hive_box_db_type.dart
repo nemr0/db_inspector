@@ -96,13 +96,16 @@ class HiveDB implements BoxDB {
   }
 
   @override
-  Stream<int> get onChange {
-    var count = 0;
+  Stream<int> get noOfProperties {
+    final Map<int,int> boxToLength = {};
     return Stream.multi((ctr) async {
       for (final box in _boxes) {
+        ctr.add(box.length);
         await ctr.addStream(
           box.watch().map((e) {
-            return ++count;
+            final boxLength = box.length;
+            boxToLength[box.hashCode] = boxLength;
+            return boxToLength.values.fold(0, (previousValue, element) => previousValue + element);
           }),
         );
       }
