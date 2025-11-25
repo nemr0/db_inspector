@@ -4,35 +4,35 @@ import 'package:path/path.dart' as p;
 
 void main(List<String> arguments) async {
   final logger = Logger();
-
+  
   logger.info('🔍 Scanning for Flutter examples...');
-
+  
   // Get the root directory (tools/generate_ide_config is where this script runs from)
   final rootDir = Directory.current.path;
   final packagesDir = p.join(rootDir, 'packages');
-
+  
   logger.detail('Root directory: $rootDir');
   logger.detail('Packages directory: $packagesDir');
-
+  
   final examples = <String>[];
-
+  
   try {
     final packagesFolder = Directory(packagesDir);
-
+    
     if (!packagesFolder.existsSync()) {
       logger.err('Packages directory not found at $packagesDir');
       exit(1);
     }
-
+    
     // Scan for example directories
     await for (final packageDir in packagesFolder.list(followLinks: false)) {
       if (packageDir is Directory) {
         final exampleDir = Directory(p.join(packageDir.path, 'example'));
-
+        
         if (exampleDir.existsSync()) {
           final pubspecPath = p.join(exampleDir.path, 'pubspec.yaml');
           final pubspecFile = File(pubspecPath);
-
+          
           if (pubspecFile.existsSync()) {
             final relativePath = p.relative(exampleDir.path, from: rootDir);
             examples.add(relativePath);
@@ -45,17 +45,17 @@ void main(List<String> arguments) async {
     logger.err('Error scanning for examples: $e');
     exit(1);
   }
-
+  
   if (examples.isEmpty) {
     logger.warn('No examples found in packages/');
     exit(0);
   }
-
+  
   logger.info('📊 Found ${examples.length} example(s):');
   for (final example in examples) {
     logger.detail('  • $example');
   }
-
+  
   // Generate IDE run configurations
   try {
     await _generateIDEConfigurations(examples, logger);
@@ -63,32 +63,31 @@ void main(List<String> arguments) async {
     logger.err('Error generating IDE configurations: $e');
     exit(1);
   }
-
+  
   logger.info('✅ IDE configurations generated successfully!');
 }
 
-Future<void> _generateIDEConfigurations(
-    List<String> examples, Logger logger) async {
+Future<void> _generateIDEConfigurations(List<String> examples, Logger logger) async {
   logger.info('📝 Generating IDE run configurations...');
-
+  
   final vscodeDir = Directory('.vscode');
   if (!vscodeDir.existsSync()) {
     vscodeDir.createSync(recursive: true);
     logger.detail('Created .vscode directory');
   }
-
+  
   // Generate VS Code launch configurations
   final launchConfig = _generateLaunchConfig(examples);
   final launchFile = File(p.join('.vscode', 'launch.json'));
-
+  
   await launchFile.writeAsString(launchConfig);
   logger.success('Generated VS Code launch configuration');
   logger.detail('File: ${launchFile.path}');
-
+  
   // Generate tasks configuration
   final tasksConfig = _generateTasksConfig(examples);
   final tasksFile = File(p.join('.vscode', 'tasks.json'));
-
+  
   await tasksFile.writeAsString(tasksConfig);
   logger.success('Generated VS Code tasks configuration');
   logger.detail('File: ${tasksFile.path}');
@@ -96,7 +95,7 @@ Future<void> _generateIDEConfigurations(
 
 String _generateLaunchConfig(List<String> examples) {
   final configurations = <Map<String, dynamic>>[];
-
+  
   for (final example in examples) {
     final exampleName = p.basename(p.dirname(example));
     configurations.add({
@@ -109,21 +108,21 @@ String _generateLaunchConfig(List<String> examples) {
       'flutterMode': 'debug',
     });
   }
-
+  
   final config = {
     'version': '0.2.0',
     'configurations': configurations,
   };
-
+  
   return _prettyJsonEncode(config);
 }
 
 String _generateTasksConfig(List<String> examples) {
   final tasks = <Map<String, dynamic>>[];
-
+  
   for (final example in examples) {
     final exampleName = p.basename(p.dirname(example));
-
+    
     // pub get task
     tasks.add({
       'label': 'pub get: $exampleName',
@@ -139,7 +138,7 @@ String _generateTasksConfig(List<String> examples) {
       },
       'problemMatcher': [],
     });
-
+    
     // flutter run task
     tasks.add({
       'label': 'flutter run: $exampleName',
@@ -157,12 +156,12 @@ String _generateTasksConfig(List<String> examples) {
       'problemMatcher': [],
     });
   }
-
+  
   final config = {
     'version': '2.0.0',
     'tasks': tasks,
   };
-
+  
   return _prettyJsonEncode(config);
 }
 
@@ -175,7 +174,7 @@ String _prettyJsonEncode(Map<String, dynamic> json) {
 void _encodeJson(dynamic value, StringBuffer buffer, int indent) {
   final spaces = '  ' * indent;
   final nextSpaces = '  ' * (indent + 1);
-
+  
   if (value is Map) {
     buffer.write('{\n');
     final entries = value.entries.toList();
