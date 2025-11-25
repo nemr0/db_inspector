@@ -1,0 +1,41 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "pub get: flutter_db_inspector",
+      "type": "shell",
+      "command": "flutter",
+      "args": [
+        "pub",
+        "get"
+      ],
+      "options": {
+        "cwd": "packages/flutter_db_inspector/example"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": [
+      ]
+    },
+    {
+      "label": "flutter run: flutter_db_inspector",
+      "type": "shell",
+      "command": "flutter",
+      "args": [
+        "run"
+      ],
+      "options": {
+        "cwd": "packages/flutter_db_inspector/example"
+      },
+      "isBackground": true,
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": [
+      ]
+    }
+  ]
+}
