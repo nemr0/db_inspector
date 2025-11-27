@@ -1,0 +1,4 @@
+
+mixin Serialized<T> {
+
+}

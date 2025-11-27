@@ -51,11 +51,10 @@ class _SliverBoxDbTabState extends State<SliverBoxDbTab> {
   @override
   Widget build(BuildContext context) {
     final boxes = _boxData.keys;
-    final boxSelected = selectedBox != null && boxes.contains(selectedBox);
     return SliverPadding(
       padding: context.gridPadding(
-        verticalOnly: boxSelected,
-        addTop: !boxSelected,
+        verticalOnly: false,
+        addTop: true,
       ),
       sliver: Builder(
         builder: (context) {

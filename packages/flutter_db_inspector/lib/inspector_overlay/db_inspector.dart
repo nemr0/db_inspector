@@ -6,12 +6,12 @@ import '../helpers/floating_overlay.dart';
 import 'inspector_overlay.dart';
 
 class DbInspector extends StatelessWidget {
-  const DbInspector({super.key, this.dbTypes = const [], required this.child, required this.navigatorKey});
+  const DbInspector({super.key, this.dbTypes = const [], required this.child, required this.navigatorKey,  this.enabled = false});
 
   final List<DB> dbTypes;
   final Widget child;
   final GlobalKey<NavigatorState> navigatorKey;
-
+  final bool enabled;
   showOverlay() => FloatingOverlay.instance.show( child:  InspectorOverlay(dbTypes: dbTypes, navigatorKey: navigatorKey,));
 
 

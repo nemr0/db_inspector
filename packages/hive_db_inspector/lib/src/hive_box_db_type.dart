@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data' show Uint8List;
-
+// ignore_for_file: implementation_imports
 import 'package:db_inspector_core/db_inspector_core.dart';
-import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 import 'package:hive/src/box/default_compaction_strategy.dart';
 import 'package:hive/src/box/default_key_comparator.dart';
@@ -97,13 +96,16 @@ class HiveDB implements BoxDB {
   }
 
   @override
-  Stream<int> get onChange {
-    var count = 0;
+  Stream<int> get noOfProperties {
+    final Map<int,int> boxToLength = {};
     return Stream.multi((ctr) async {
       for (final box in _boxes) {
+        ctr.add(box.length);
         await ctr.addStream(
           box.watch().map((e) {
-            return ++count;
+            final boxLength = box.length;
+            boxToLength[box.hashCode] = boxLength;
+            return boxToLength.values.fold(0, (previousValue, element) => previousValue + element);
           }),
         );
       }
@@ -176,7 +178,7 @@ class HiveDB implements BoxDB {
   }
 }
 
-class BoxOptions extends Equatable {
+class BoxOptions  {
   final HiveCipher? encryptionCipher;
   final KeyComparator keyComparator;
   final CompactionStrategy compactionStrategy;
@@ -194,14 +196,4 @@ class BoxOptions extends Equatable {
     this.keyComparator = defaultKeyComparator,
   });
 
-  @override
-  List<Object?> get props => [
-    encryptionCipher,
-    keyComparator,
-    compactionStrategy,
-    crashRecovery,
-    path,
-    bytes,
-    collection,
-  ];
 }

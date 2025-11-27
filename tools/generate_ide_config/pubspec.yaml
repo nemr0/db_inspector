@@ -1,0 +1,11 @@
+name: generate_ide_config
+description: Tool to generate IDE run configurations for all Flutter examples in packages.
+version: 1.0.0
+
+environment:
+  sdk: ">=3.5.0 <4.0.0"
+
+dependencies:
+  mason_logger: ^0.3.3
+  path: ^1.8.0
+

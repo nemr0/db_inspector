@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences_db_inspector/shared_preferences_db_inspector.dart';
 
 import 'models/todos.dart';
 import 'package:flutter_db_inspector/flutter_db_inspector.dart';
@@ -16,9 +20,10 @@ Future<void> main() async {
 
   // Open a typed box
   await Hive.openBox<Todo>('todos');
-
+  preferences = await SharedPreferences.getInstance();
   runApp(const MyApp());
 }
+late SharedPreferences preferences;
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -27,9 +32,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return DbInspector(
       navigatorKey: navigatorKey,
-      dbTypes: [HiveDB(boxes: {
+      dbTypes: [
+        HiveDB(boxes: {
         Hive.box<Todo>('todos')
-      })],
+      }),
+      SharedPreferencesDbInspector(),
+      ],
       child: MaterialApp(
         title: 'Hive Todos',
         theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.blue),
@@ -69,12 +77,16 @@ class _TodoPageState extends State<TodoPage> {
   Future<void> _addTodo() async {
     final text = _controller.text.trim();
     if (text.isEmpty) return;
-    await _box.add(Todo(title: text));
+    final t = Todo(title: text, done: false);
+    await _box.add(t);
+    final serializedTodo = jsonEncode(t.toJson());
+    await preferences.setString(t.id.toString(), serializedTodo);
     _controller.clear();
   }
 
   Future<void> _toggleDone(Todo todo) async {
     todo.done = !todo.done;
+    await preferences.setString(todo.id.toString(), jsonEncode(todo.toJson()));
     await todo.save(); // because Todo extends HiveObject
   }
 
@@ -110,12 +122,15 @@ class _TodoPageState extends State<TodoPage> {
     );
     if (newTitle != null && newTitle.isNotEmpty && newTitle != todo.title) {
       todo.title = newTitle;
+      await preferences.setString(todo.id.toString(), jsonEncode(todo.toJson()));
       await todo.save();
     }
   }
 
   Future<void> _deleteTodo(Todo todo) async {
     await todo.delete();
+   final contains = preferences.containsKey(todo.id.toString());
+   if(contains) await preferences.remove(todo.id.toString());
   }
 
   @override
