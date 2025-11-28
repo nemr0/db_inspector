@@ -3,7 +3,7 @@ import 'package:db_inspector_core/db_inspector_core.dart';
 import 'package:flutter/widgets.dart';
 
 import '../helpers/floating_overlay.dart';
-import 'inspector_overlay.dart';
+import '../inspector_overlay/inspector_overlay.dart';
 
 class DbInspector extends StatelessWidget {
   const DbInspector({super.key, this.dbTypes = const [], required this.child, required this.navigatorKey,  this.enabled = false});
@@ -15,9 +15,8 @@ class DbInspector extends StatelessWidget {
   showOverlay() => FloatingOverlay.instance.show( child:  InspectorOverlay(dbTypes: dbTypes, navigatorKey: navigatorKey,));
 
 
-  hideOverlay() {
-    FloatingOverlay.instance.hide();
-  }
+  hideOverlay() => FloatingOverlay.instance.hide();
+  
 
   @override
   Widget build(BuildContext context) {
@@ -39,13 +38,13 @@ class DbInspector extends StatelessWidget {
 
 class _WidgetStateHandler extends StatefulWidget {
   const _WidgetStateHandler({
-    required this.initStateCallback,
-    required this.disposeCallback,
+     this.initStateCallback,
+     this.disposeCallback,
     required this.child,
   });
 
-  final ValueChanged<BuildContext> initStateCallback;
-  final ValueChanged<BuildContext> disposeCallback;
+  final ValueChanged<BuildContext>? initStateCallback;
+  final ValueChanged<BuildContext>? disposeCallback;
   final Widget child;
 
   @override
@@ -55,13 +54,13 @@ class _WidgetStateHandler extends StatefulWidget {
 class _WidgetStateHandlerState extends State<_WidgetStateHandler> {
   @override
   void initState() {
-    widget.initStateCallback(context);
+    widget.initStateCallback?.call(context);
     super.initState();
   }
 
   @override
   void dispose() {
-    widget.disposeCallback(context);
+    widget.disposeCallback?.call(context);
     super.dispose();
   }
 
