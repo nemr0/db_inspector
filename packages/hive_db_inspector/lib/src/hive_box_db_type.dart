@@ -27,13 +27,11 @@ class HiveDB implements BoxDB {
   /// One of [boxes] or [boxNamesWithOptions] must be non-empty. An assertion
   /// is raised if both are empty to prevent creating an instance that manages
   /// no boxes.
-  HiveDB({
-    this.boxes = const {},
-    this.boxNamesWithOptions = const {},
-  }) : assert(
-         boxes.isNotEmpty || boxNamesWithOptions.isNotEmpty,
-         'Either boxes or boxNamesWithOptions must be provided',
-       );
+  HiveDB({this.boxes = const {}, this.boxNamesWithOptions = const {}})
+    : assert(
+        boxes.isNotEmpty || boxNamesWithOptions.isNotEmpty,
+        'Either boxes or boxNamesWithOptions must be provided',
+      );
 
   @override
   Future<void> connect() async {
@@ -97,7 +95,7 @@ class HiveDB implements BoxDB {
 
   @override
   Stream<int> get noOfProperties {
-    final Map<int,int> boxToLength = {};
+    final Map<int, int> boxToLength = {};
     return Stream.multi((ctr) async {
       for (final box in _boxes) {
         ctr.add(box.length);
@@ -105,7 +103,10 @@ class HiveDB implements BoxDB {
           box.watch().map((e) {
             final boxLength = box.length;
             boxToLength[box.hashCode] = boxLength;
-            return boxToLength.values.fold(0, (previousValue, element) => previousValue + element);
+            return boxToLength.values.fold(
+              0,
+              (previousValue, element) => previousValue + element,
+            );
           }),
         );
       }
@@ -113,11 +114,11 @@ class HiveDB implements BoxDB {
   }
 
   @override
-  Stream<Map<dynamic, StreamEvent>> watchBox<T>({
-    required String boxName,
+  Stream<Map<dynamic, StreamEvent>> watchBox({
+    required dynamic boxKey,
     bool addInitialData = true,
   }) async* {
-    final box = _getBoxByName(boxName);
+    final box = _getBoxByName(boxKey);
     final Map<dynamic, StreamEvent> data = {};
     if (addInitialData) {
       for (final key in box.keys) {
@@ -178,7 +179,7 @@ class HiveDB implements BoxDB {
   }
 }
 
-class BoxOptions  {
+class BoxOptions {
   final HiveCipher? encryptionCipher;
   final KeyComparator keyComparator;
   final CompactionStrategy compactionStrategy;
@@ -195,5 +196,4 @@ class BoxOptions  {
     this.compactionStrategy = defaultCompactionStrategy,
     this.keyComparator = defaultKeyComparator,
   });
-
 }

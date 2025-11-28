@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:db_inspector_core/db_inspector_core.dart';
+import 'package:db_inspector_core/src/helpers/stream_event.dart';
+
 
 
 /// An abstract class for a generic key-value database.

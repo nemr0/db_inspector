@@ -1,19 +1,19 @@
 
 import 'dart:async';
 
+import 'package:db_inspector_core/db_inspector_core.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../../db_inspector_core.dart';
 
 class KeyValueController extends ValueNotifier<Map<String,StreamEvent>>{
-  KeyValueController(this.db) : super({}){
+  KeyValueController(this.keyValueDB) : super({}){
     refresh();
-    _subscription = db.watcher().listen(_listener);
+    _subscription = keyValueDB.watcher().listen(_listener);
   }
-  final KeyValueDB db;
+  final KeyValueDB keyValueDB;
 
   Future<void> refresh() async {
-    value = (await db.getAllKeysAndValues()).map((e,v){
+    value = (await keyValueDB.getAllKeysAndValues()).map((e,v){
       return MapEntry(e, StreamEvent(key: e, data: v, isDeleted: false,streamId: null,));
     });
     notifyListeners();

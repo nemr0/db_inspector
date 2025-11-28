@@ -1,4 +1,6 @@
-import '../../../db_inspector_core.dart';
+
+import 'package:db_inspector_core/src/db_type/db_types.dart';
+import 'package:db_inspector_core/src/helpers/stream_event.dart';
 
 /// Abstraction for a "box" based database (for example Hive-like stores).
 ///
@@ -17,7 +19,6 @@ import '../../../db_inspector_core.dart';
 /// });
 /// ```
 abstract class BoxDB implements DB {
-
   /// Delete the entry with [key] from the specified [boxName].
   ///
   /// Returns a Future that completes when the deletion is finished.
@@ -27,7 +28,6 @@ abstract class BoxDB implements DB {
   ///
   /// Implementations may return the count of removed items or 0 if not supported.
   Future<int> clearBox(String boxName);
-
 
   /// Retrieve all data from the specified box as a list of `T`.
   ///
@@ -41,14 +41,14 @@ abstract class BoxDB implements DB {
   /// Watch changes in a specific box. Emits a map where the key is the changed entry's
   /// key and the value is the corresponding [StreamEvent] describing the change.
   ///
-  /// - [boxName]: box to observe.
+  /// - [boxKey]: box to observe.
   /// - [addInitialData]: when true, the stream should emit the current contents
   ///   (or an initial snapshot) before streaming further updates.
   ///
   /// The generic `T` represents the expected value type for consumers that will
   /// interpret the contained events.
-  Stream<Map<dynamic, StreamEvent>> watchBox<T>({
-    required String boxName,
+  Stream<Map<dynamic, StreamEvent>> watchBox({
+    required dynamic boxKey,
     bool addInitialData = true,
   });
 
@@ -56,5 +56,5 @@ abstract class BoxDB implements DB {
   ///
   /// Emits a map of boxName -> currentLength. When [addInitialData] is true the stream
   /// should emit an initial snapshot of lengths before subsequent updates.
-  Stream<Map<String,int>> watchBoxLength({bool addInitialData = true,});
+  Stream<Map<String, int>> watchBoxLength({bool addInitialData = true});
 }
