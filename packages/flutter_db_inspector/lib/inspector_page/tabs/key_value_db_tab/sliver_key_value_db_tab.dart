@@ -1,5 +1,6 @@
 import 'package:db_inspector_core/db_inspector_core.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_db_inspector/controllers/key_value_controller/key_value_controller.dart';
 
 class SliverKeyValueDbTab extends StatefulWidget {
   const SliverKeyValueDbTab({super.key, required this.db});

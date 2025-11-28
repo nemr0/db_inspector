@@ -50,10 +50,7 @@ class _SliverBoxDbTabState extends State<SliverBoxDbTab> {
   Widget build(BuildContext context) {
     final boxes = _boxData.keys;
     return SliverPadding(
-      padding: context.gridPadding(
-        verticalOnly: false,
-        addTop: true,
-      ),
+      padding: context.gridPadding(verticalOnly: false, addTop: true),
       sliver: Builder(
         builder: (context) {
           return SliverGrid(
@@ -65,8 +62,9 @@ class _SliverBoxDbTabState extends State<SliverBoxDbTab> {
                     context: context,
                     builder: (context) => BoxScreen(
                       name: current,
-                      dataStream: widget.boxDB.watchBox(boxName: current),
-                      onDelete: (key) => widget.boxDB.deleteFromBox(current, key),
+                      dataStream: widget.boxDB.watchBox(boxKey: current),
+                      onDelete: (key) =>
+                          widget.boxDB.deleteFromBox(current, key),
                     ),
                   );
                 },

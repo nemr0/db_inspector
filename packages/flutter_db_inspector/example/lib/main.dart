@@ -23,6 +23,7 @@ Future<void> main() async {
   preferences = await SharedPreferences.getInstance();
   runApp(const MyApp());
 }
+
 late SharedPreferences preferences;
 
 class MyApp extends StatelessWidget {
@@ -33,10 +34,8 @@ class MyApp extends StatelessWidget {
     return DbInspector(
       navigatorKey: navigatorKey,
       dbTypes: [
-        HiveDB(boxes: {
-        Hive.box<Todo>('todos')
-      }),
-      SharedPreferencesDbInspector(),
+        HiveDB(boxes: {Hive.box<Todo>('todos')}),
+        SharedPreferencesDbInspector(),
       ],
       child: MaterialApp(
         title: 'Hive Todos',
@@ -63,7 +62,6 @@ class _TodoPageState extends State<TodoPage> {
 
   @override
   void initState() {
-
     super.initState();
     _box = Hive.box<Todo>('todos');
   }
@@ -79,14 +77,17 @@ class _TodoPageState extends State<TodoPage> {
     if (text.isEmpty) return;
     final t = Todo(title: text, done: false);
     await _box.add(t);
-    final serializedTodo = jsonEncode(t.toSerialized());
+    final serializedTodo = jsonEncode(t.deserialize());
     await preferences.setString(t.id.toString(), serializedTodo);
     _controller.clear();
   }
 
   Future<void> _toggleDone(Todo todo) async {
     todo.done = !todo.done;
-    await preferences.setString(todo.id.toString(), jsonEncode(todo.toSerialized()));
+    await preferences.setString(
+      todo.id.toString(),
+      jsonEncode(todo.deserialize()),
+    );
     await todo.save(); // because Todo extends HiveObject
   }
 
@@ -122,15 +123,18 @@ class _TodoPageState extends State<TodoPage> {
     );
     if (newTitle != null && newTitle.isNotEmpty && newTitle != todo.title) {
       todo.title = newTitle;
-      await preferences.setString(todo.id.toString(), jsonEncode(todo.toSerialized()));
+      await preferences.setString(
+        todo.id.toString(),
+        jsonEncode(todo.deserialize()),
+      );
       await todo.save();
     }
   }
 
   Future<void> _deleteTodo(Todo todo) async {
     await todo.delete();
-   final contains = preferences.containsKey(todo.id.toString());
-   if(contains) await preferences.remove(todo.id.toString());
+    final contains = preferences.containsKey(todo.id.toString());
+    if (contains) await preferences.remove(todo.id.toString());
   }
 
   @override
