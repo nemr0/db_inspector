@@ -8,9 +8,7 @@ extension ListOfDbsExtension on List<DB> {
     return Stream<int>.multi((controller) async {
       final List<StreamSubscription<int>> subscriptions = [];
 
-      print('here');
       for (DB db in this) {
-        print(db.name);
          subscriptions .add(  db.noOfProperties.map((e) {
            dbToNoOfProperties[indexOf(db)] = e;
            return dbToNoOfProperties.values.fold(0, (previousValue, element) => previousValue + element,);

@@ -3,9 +3,7 @@ import 'dart:async';
 import 'package:db_inspector_core/db_inspector_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_db_inspector/helpers/context_extension.dart';
-import 'package:flutter_db_inspector/helpers/themes.dart';
 import 'package:flutter_db_inspector/inspector_page/tabs/box_db_tab/box_screen/box_screen.dart';
-import 'package:flutter_db_inspector/shared_widgets/custom_button.dart';
 
 import '../../../helpers/modal_sheet_route.dart';
 

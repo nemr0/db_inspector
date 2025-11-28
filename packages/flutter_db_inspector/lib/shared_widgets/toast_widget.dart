@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_db_inspector/helpers/context_extension.dart';
-import 'package:flutter_db_inspector/helpers/themes.dart';
+import 'package:db_inspector_core/db_inspector_core.dart';
 
 class ToastOverlayWidget extends StatelessWidget {
   const ToastOverlayWidget({super.key, required this.message});

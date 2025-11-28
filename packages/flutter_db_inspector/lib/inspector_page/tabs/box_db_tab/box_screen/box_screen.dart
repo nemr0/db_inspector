@@ -7,9 +7,7 @@ import 'package:flutter_db_inspector/helpers/asset_paths.dart';
 import 'package:flutter_db_inspector/helpers/context_extension.dart';
 import 'package:flutter_db_inspector/helpers/floating_overlay.dart';
 import 'package:flutter_db_inspector/helpers/pretty_formatter.dart';
-import 'package:flutter_db_inspector/shared_widgets/custom_button.dart';
 
-import '../../../../helpers/themes.dart';
 
 class BoxScreen extends StatefulWidget {
   const BoxScreen({super.key, required this.name, required this.dataStream, required this.onDelete});

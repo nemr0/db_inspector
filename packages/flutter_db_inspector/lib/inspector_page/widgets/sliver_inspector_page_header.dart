@@ -4,7 +4,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_db_inspector/helpers/context_extension.dart';
 import 'package:flutter_db_inspector/inspector_page/widgets/db_tab.dart';
 
-import '../../helpers/themes.dart';
 
 class SliverInspectorPageHeader extends StatelessWidget {
   const SliverInspectorPageHeader({super.key});

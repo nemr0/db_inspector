@@ -1,4 +1,0 @@
-
-mixin Serialized<T> {
-
-}

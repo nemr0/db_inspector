@@ -79,14 +79,14 @@ class _TodoPageState extends State<TodoPage> {
     if (text.isEmpty) return;
     final t = Todo(title: text, done: false);
     await _box.add(t);
-    final serializedTodo = jsonEncode(t.toJson());
+    final serializedTodo = jsonEncode(t.toSerialized());
     await preferences.setString(t.id.toString(), serializedTodo);
     _controller.clear();
   }
 
   Future<void> _toggleDone(Todo todo) async {
     todo.done = !todo.done;
-    await preferences.setString(todo.id.toString(), jsonEncode(todo.toJson()));
+    await preferences.setString(todo.id.toString(), jsonEncode(todo.toSerialized()));
     await todo.save(); // because Todo extends HiveObject
   }
 
@@ -122,7 +122,7 @@ class _TodoPageState extends State<TodoPage> {
     );
     if (newTitle != null && newTitle.isNotEmpty && newTitle != todo.title) {
       todo.title = newTitle;
-      await preferences.setString(todo.id.toString(), jsonEncode(todo.toJson()));
+      await preferences.setString(todo.id.toString(), jsonEncode(todo.toSerialized()));
       await todo.save();
     }
   }

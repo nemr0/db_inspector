@@ -1,8 +1,5 @@
 import 'package:db_inspector_core/db_inspector_core.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_db_inspector/helpers/themes.dart';
-import 'package:flutter_db_inspector/shared_widgets/custom_button.dart';
 
 class SliverKeyValueDbTab extends StatefulWidget {
   const SliverKeyValueDbTab({super.key, required this.db});
@@ -130,7 +127,7 @@ class _SliverKeyValueDbTabState extends State<SliverKeyValueDbTab> {
                             onSave: (value) => _onSaveValue(MapEntry(entry.key, value)),
                           ) else CellWidget(entry.value.data.toString(),onTap:entry.value.isDeleted ? null : () {
                             setState(() {
-                              selectedKey = null;;
+                              selectedKey = null;
                               selectedValue = entry.value.data;
                             });
                           },)
@@ -273,11 +270,7 @@ class CellBody extends StatelessWidget {
             color: isSelected ? InspectorColors.selectedTab : InspectorColors.unSelectedTabBorder,
           ),
         ),
-        Divider(
-          color: InspectorColors.unSelectedTabBorder,
-          indent: 5,
-          endIndent: 5,
-        ),
+        CustomDivider(),
         Text(
           entry?.key ?? 'New_Key',
           style: TextStyle(

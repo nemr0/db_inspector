@@ -1,8 +1,6 @@
 import 'package:db_inspector_core/db_inspector_core.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_db_inspector/shared_widgets/custom_button.dart';
 
-import '../../helpers/themes.dart';
 class DBTab extends StatelessWidget {
   const DBTab({
     super.key,

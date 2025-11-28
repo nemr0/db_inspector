@@ -5,10 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_db_inspector/helpers/floating_overlay.dart';
 import 'package:flutter_db_inspector/helpers/list_of_dbs_extension.dart';
 import 'package:flutter_db_inspector/inspector_page/inspector_page.dart';
-import 'package:flutter_db_inspector/shared_widgets/custom_button.dart';
 
 import '../helpers/modal_sheet_route.dart';
-import '../helpers/themes.dart';
 
 class InspectorOverlay extends StatefulWidget {
   const InspectorOverlay({

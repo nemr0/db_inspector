@@ -18,7 +18,7 @@ class Todo extends HiveObject with Serialized {
   String toString() => 'Todo(title: $title, done: $done)';
 
   @override
-  Todo fromJson(Map<String, dynamic> json) {
+  Todo fromSerialized(Map<String, dynamic> json) {
     return Todo(
       title: json['title'] as String,
       done: json['done'] as bool? ?? false,
@@ -26,7 +26,7 @@ class Todo extends HiveObject with Serialized {
   }
 
   @override
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toSerialized() {
     return {
       'title': title,
       'done': done,

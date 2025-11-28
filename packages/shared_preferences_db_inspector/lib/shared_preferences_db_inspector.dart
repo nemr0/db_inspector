@@ -30,7 +30,6 @@ class SharedPreferencesDbInspector implements KeyValueDB {
     for (final key in keys) {
       map[key] = _preferences.get(key);
     }
-    print('getAllKeysAndValues: $map');
     return Future.value(map);
   }
   @override
@@ -45,10 +44,8 @@ class SharedPreferencesDbInspector implements KeyValueDB {
   Stream<int> get noOfProperties {
     return Stream<int>.multi((controller){
       int count = _preferences.getKeys().length;
-      print('count: $count');
       controller.add(count);
       Timer timer = Timer.periodic(const Duration(seconds: 3),(t){
-        print('streaming');
         final currentLength = _preferences.getKeys().length;
         if(currentLength == count){
           return;
@@ -123,7 +120,6 @@ class SharedPreferencesDbInspector implements KeyValueDB {
     });
   }
  void _periodicallyAddStreamEvents(Timer timer,StreamController<StreamEvent> controller) async {
-    print('Checking for changes in SharedPreferences...');
     final currentKeys = _preferences.getKeys();
     // Check for added or updated keys
     for (final key in currentKeys) {
@@ -148,6 +144,12 @@ class SharedPreferencesDbInspector implements KeyValueDB {
       }
     }
   }
+
+
+
+
+
+
 
 }
 

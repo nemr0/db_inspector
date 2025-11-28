@@ -1,6 +1,5 @@
 import 'package:db_inspector_core/db_inspector_core.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_db_inspector/helpers/themes.dart';
 import 'package:flutter_db_inspector/inspector_page/tabs/box_db_tab/sliver_box_db_tab.dart';
 import 'package:flutter_db_inspector/inspector_page/tabs/key_value_db_tab/sliver_key_value_db_tab.dart';
 import 'package:flutter_db_inspector/inspector_page/widgets/sliver_inspector_page_header.dart';
